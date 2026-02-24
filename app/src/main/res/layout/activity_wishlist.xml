@@ -1,54 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
-    tools:context=".WishlistActivity">
+    android:background="@color/black"
+    android:fitsSystemWindows="true"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/text_welcome"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textColor="#BEACF0"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:text="Welcome" />
+        android:text="Welcome, Player" />
 
     <TextView
         android:id="@+id/text_stats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#0F3460"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#FFFFFF"
         android:text="Total: 0.00€ | Categories: 0"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Catalogue"
-        android:textStyle="italic" />
+        android:layout_marginTop="20dp"
+        android:text="AVAILABLE GAMES"
+        android:textColor="#CCCCCC"
+        android:letterSpacing="0.1"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/list_catalogue"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="0.8"
+        android:divider="#1A1A2E"
+        android:textColor="#CCCCCC"
+        android:dividerHeight="2dp"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:padding="10dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="My Wishlist" />
+        android:text="MY WISHLIST"
+        android:textColor="#BEACF0"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/list_wishlist"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="0.8"
+        android:background="#D5240E4B"
+        android:textColor="#CCCCCC"
+        android:layout_marginTop="5dp" />
 
 </LinearLayout>

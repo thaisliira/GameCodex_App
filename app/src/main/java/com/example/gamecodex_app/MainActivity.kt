@@ -17,29 +17,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val arrayLoginsValidos = ArrayList<Login>()
-        arrayLoginsValidos.add(Login("admin", "123456", "Administrador", "1990"))
-        arrayLoginsValidos.add(Login("thais", "pass1", "Thais Lira", "1993"))
-        arrayLoginsValidos.add(Login("maria", "pass2", "Maria Madalena", "2010"))
-        arrayLoginsValidos.add(Login("joana", "pass3", "Joana Dark", "2005"))
-        arrayLoginsValidos.add(Login("leo", "pass4", "Leonardo Aguiar", "1999"))
+        arrayLoginsValidos.add(Login("admin", "123456", "Administrador", 1990))
+        arrayLoginsValidos.add(Login("thais", "pass1", "Thais Lira", 1993))
+        arrayLoginsValidos.add(Login("maria", "pass2", "Maria Madalena", 2010))
+        arrayLoginsValidos.add(Login("joana", "pass3", "Joana Dark", 2005))
+        arrayLoginsValidos.add(Login("leo", "pass4", "Leonardo Aguiar", 1999))
 
         binding.buttonLogin.setOnClickListener {
             val userIn = binding.editUsername.text.toString()
             val passIn = binding.editPassword.text.toString()
 
-            var validUser: Login? = null
+            var userEncontrado: Login? = null
 
-            for (validUser in arrayLoginsValidos) {
-                if (validUser.username == userIn && validUser.password == passIn) {
+            for (u in arrayLoginsValidos) {
+                if (u.username == userIn && u.password == passIn) {
+                    userEncontrado = u
                     break
                 }
             }
 
-            if (validUser != null) {
+            if (userEncontrado != null) {
                 val intent = Intent(this, WishlistActivity::class.java)
 
-                intent.putExtra("NOME_USER", validUser.name)
-                intent.putExtra("ANO_NASC", validUser.birthday.toInt())
+                intent.putExtra("NOME_USER", userEncontrado.name)
+                intent.putExtra("ANO_NASC", userEncontrado.birthday)
                 startActivity(intent)
                 finish()
             } else {

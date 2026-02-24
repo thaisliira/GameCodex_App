@@ -1,6 +1,5 @@
 package com.example.gamecodex_app
 
-import android.R
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +35,7 @@ class WishlistActivity : AppCompatActivity() {
 
 
         var arrayAdapterCatalogue =
-            ArrayAdapter(this, R.layout.simple_list_item_1, arrayListCatalogue)
+            ArrayAdapter(this, R.layout.item_game, arrayListCatalogue)
 
         binding.listCatalogue.adapter = arrayAdapterCatalogue
 

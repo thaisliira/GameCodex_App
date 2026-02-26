@@ -20,27 +20,27 @@ class MainActivity : AppCompatActivity() {
         arrayLoginsValidos.add(Login("admin", "123456", "Administrador", 1990))
         arrayLoginsValidos.add(Login("thais", "pass1", "Thais Lira", 1993))
         arrayLoginsValidos.add(Login("maria", "pass2", "Maria Madalena", 2010))
-        arrayLoginsValidos.add(Login("joana", "pass3", "Joana Dark", 2005))
+        arrayLoginsValidos.add(Login("joana", "pass3", "Joana Dark", 2020))
         arrayLoginsValidos.add(Login("leo", "pass4", "Leonardo Aguiar", 1999))
 
         binding.buttonLogin.setOnClickListener {
             val userIn = binding.editUsername.text.toString()
             val passIn = binding.editPassword.text.toString()
 
-            var userEncontrado: Login? = null
+            var userFounded: Login? = null
 
             for (u in arrayLoginsValidos) {
                 if (u.username == userIn && u.password == passIn) {
-                    userEncontrado = u
+                    userFounded = u
                     break
                 }
             }
 
-            if (userEncontrado != null) {
+            if (userFounded != null) {
                 val intent = Intent(this, WishlistActivity::class.java)
 
-                intent.putExtra("NOME_USER", userEncontrado.name)
-                intent.putExtra("ANO_NASC", userEncontrado.birthday)
+                intent.putExtra("NOME_USER", userFounded.name)
+                intent.putExtra("ANO_NASC", userFounded.birthYear)
                 startActivity(intent)
                 finish()
             } else {

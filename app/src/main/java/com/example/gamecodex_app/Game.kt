@@ -1,6 +1,6 @@
 package com.example.gamecodex_app
 
-class Game(
+data class Game(
     var name: String,
     var category: String,
     var price: Double,

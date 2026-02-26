@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gamecodex_app.databinding.ActivityWishlistBinding
+import java.time.LocalDate
 
 class WishlistActivity : AppCompatActivity() {
 
@@ -12,10 +13,17 @@ class WishlistActivity : AppCompatActivity() {
         ActivityWishlistBinding.inflate(layoutInflater)
     }
 
+    var weightTotal = 0.0
+    var priceTotal = 0.0
+    var arrayListWishlist = ArrayList<Game>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val birthYear = intent.getIntExtra("ANO_NASC", 0)
+        val currentYear = LocalDate.now().year
+        val userAge = currentYear - birthYear
         val arrayListCatalogue = ArrayList<Game>()
 
         arrayListCatalogue.add(Game("Pokemon Scarlet", "RPG", 59.99, 2022, 12, 0.5))
@@ -34,59 +42,51 @@ class WishlistActivity : AppCompatActivity() {
         arrayListCatalogue.add(Game("Tetris Effect", "Puzzle", 19.99, 2018, 3, 0.1))
         arrayListCatalogue.add(Game("Zelda: Breath of the Wild", "Aventura", 60.00, 2017, 12, 0.5))
 
+        val filteredCatalogue = arrayListCatalogue.filter {
+            it.age <= userAge
+        }
 
-        var arrayAdapterCatalogue =
-            ArrayAdapter(this, R.layout.item_game, arrayListCatalogue)
-
+        val arrayAdapterCatalogue = ArrayAdapter(this, R.layout.item_game, filteredCatalogue)
         binding.listCatalogue.adapter = arrayAdapterCatalogue
 
-        val username = intent.getStringExtra("NOME_USER")
+        val arrayAdapterWishList = ArrayAdapter(this, R.layout.item_game, arrayListWishlist)
+        binding.listWishlist.adapter = arrayAdapterWishList
 
+        val username = intent.getStringExtra("NOME_USER")
         if (username != null) {
             binding.textWelcome.text = "Welcome, $username!"
         }
 
-        var arrayListWishlist = ArrayList<Game>()
+        binding.listCatalogue.setOnItemClickListener { _, _, position, _ ->
+            val gameSelected = filteredCatalogue[position]
 
-        binding.listCatalogue.setOnItemClickListener { parent, view, position, id ->
+            if (arrayListWishlist.contains(gameSelected)) {
+                Toast.makeText(this, "${gameSelected.name} already selected", Toast.LENGTH_SHORT).show()
+            } else {
+                weightTotal += gameSelected.weight
+                priceTotal += gameSelected.price
+                arrayListWishlist.add(gameSelected)
 
-            Toast.makeText(applicationContext, "Added to Wishlist", Toast.LENGTH_SHORT).show()
-
-            arrayListWishlist.add(arrayListCatalogue.get(position))
-
-
-            var arrayAdapterWishList =
-                ArrayAdapter(this, R.layout.item_game, arrayListWishlist)
-
-            binding.listWishlist.adapter = arrayAdapterWishList
-
-            var weightTotal = 0.0
-            var priceTotal = 0.0
-
-            weightTotal += arrayListCatalogue.get(position).weight
-            priceTotal += arrayListCatalogue.get(position).price
-
-            val weightRounded: Double = String.format("%.2f", weightTotal).toDouble()
-            val priceRounded: Double = String.format("%.2f", priceTotal).toDouble()
-
-            binding.textWeight.text="PESO: $weightRounded KG."
-            binding.textTotal.text="TOTAL: $priceRounded €"
-
-
-            binding.listWishlist.setOnItemClickListener { _, _, position, _ ->
-                val gameToRemove = arrayListWishlist[position]
-
-                weightTotal -= gameToRemove.price
-                priceTotal -= gameToRemove.weight
-
-                arrayListWishlist.removeAt(position)
                 arrayAdapterWishList.notifyDataSetChanged()
+                binding.textWeight.text = "PESO: ${String.format("%.2f", weightTotal)} GB"
+                binding.textTotal.text = "TOTAL: ${String.format("%.2f", priceTotal)} €"
 
-                binding.textTotal.text = "TOTAL: ${String.format("%.2f", weightTotal)} €"
-                binding.textWeight.text = "PESO: ${String.format("%.2f", priceTotal)} KG"
-
-                Toast.makeText(this, "${gameToRemove.name} removed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "${gameSelected.name} added to Wishlist", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.listWishlist.setOnItemClickListener { _, _, position, _ ->
+            val gameToRemove = arrayListWishlist[position]
+
+            weightTotal -= gameToRemove.weight
+            priceTotal -= gameToRemove.price
+            arrayListWishlist.removeAt(position)
+
+            arrayAdapterWishList.notifyDataSetChanged()
+            binding.textTotal.text = "TOTAL: ${String.format("%.2f", priceTotal)} €"
+            binding.textWeight.text = "PESO: ${String.format("%.2f", weightTotal)} GB"
+
+            Toast.makeText(this, "${gameToRemove.name} removed", Toast.LENGTH_SHORT).show()
         }
     }
 }

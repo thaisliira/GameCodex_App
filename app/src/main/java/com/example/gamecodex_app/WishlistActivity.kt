@@ -63,12 +63,21 @@ class WishlistActivity : AppCompatActivity() {
             if (arrayListWishlist.contains(gameSelected)) {
                 Toast.makeText(this, "${gameSelected.name} already selected", Toast.LENGTH_SHORT).show()
             } else {
-                weightTotal += gameSelected.weight
-                priceTotal += gameSelected.price
+
                 arrayListWishlist.add(gameSelected)
 
+                weightTotal += gameSelected.weight
+                priceTotal += gameSelected.price
+
                 arrayAdapterWishList.notifyDataSetChanged()
-                binding.textWeight.text = "PESO: ${String.format("%.2f", weightTotal)} GB"
+
+                val categoryCount = arrayListWishlist
+                    .map { it.category }
+                    .toSet()
+                    .size
+
+                binding.textCategoryCount.text = "CATEGORIES: $categoryCount"
+                binding.textWeight.text = "TOTAL SIZE: ${String.format("%.2f", weightTotal)} GB"
                 binding.textTotal.text = "TOTAL: ${String.format("%.2f", priceTotal)} €"
 
                 Toast.makeText(this, "${gameSelected.name} added to Wishlist", Toast.LENGTH_SHORT).show()
@@ -80,9 +89,22 @@ class WishlistActivity : AppCompatActivity() {
 
             weightTotal -= gameToRemove.weight
             priceTotal -= gameToRemove.price
+
             arrayListWishlist.removeAt(position)
 
+            if (arrayListWishlist.isEmpty()) {
+                weightTotal = 0.0
+                priceTotal = 0.0
+            }
+
             arrayAdapterWishList.notifyDataSetChanged()
+
+            val categoryCount = arrayListWishlist
+                .map { it.category }
+                .toSet()
+                .size
+
+            binding.textCategoryCount.text = "CATEGORIES: $categoryCount"
             binding.textTotal.text = "TOTAL: ${String.format("%.2f", priceTotal)} €"
             binding.textWeight.text = "PESO: ${String.format("%.2f", weightTotal)} GB"
 

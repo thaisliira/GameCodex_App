@@ -21,6 +21,10 @@ class WishlistActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.buttonLogout.setOnClickListener {
+            finish()
+        }
+
         val birthYear = intent.getIntExtra("ANO_NASC", 0)
         val currentYear = LocalDate.now().year
         val userAge = currentYear - birthYear
@@ -71,13 +75,14 @@ class WishlistActivity : AppCompatActivity() {
 
                 arrayAdapterWishList.notifyDataSetChanged()
 
+                // o map vai selecionar apenas a categoria do array, o set nao permite valores duplicados
                 val categoryCount = arrayListWishlist
                     .map { it.category }
                     .toSet()
                     .size
 
                 binding.textCategoryCount.text = "CATEGORIES: $categoryCount"
-                binding.textWeight.text = "TOTAL SIZE: ${String.format("%.2f", weightTotal)} GB"
+                binding.textWeight.text = "SIZE: ${String.format("%.2f", weightTotal)} GB"
                 binding.textTotal.text = "TOTAL: ${String.format("%.2f", priceTotal)} €"
 
                 Toast.makeText(this, "${gameSelected.name} added to Wishlist", Toast.LENGTH_SHORT).show()
@@ -106,7 +111,7 @@ class WishlistActivity : AppCompatActivity() {
 
             binding.textCategoryCount.text = "CATEGORIES: $categoryCount"
             binding.textTotal.text = "TOTAL: ${String.format("%.2f", priceTotal)} €"
-            binding.textWeight.text = "PESO: ${String.format("%.2f", weightTotal)} GB"
+            binding.textWeight.text = "SIZE: ${String.format("%.2f", weightTotal)} GB"
 
             Toast.makeText(this, "${gameToRemove.name} removed", Toast.LENGTH_SHORT).show()
         }

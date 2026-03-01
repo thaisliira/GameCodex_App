@@ -7,15 +7,32 @@
     android:fitsSystemWindows="true"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/text_welcome"
-        android:layout_marginTop="22dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#BEACF0"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:text="Welcome!" />
+        android:orientation="horizontal"
+        android:layout_marginTop="22dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_welcome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#BEACF0"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="Welcome!" />
+
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGOUT"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="#BEACF0" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
